@@ -6,6 +6,19 @@ import SearchBar from './components/SearchBar'
 import WeatherCard from './components/WeatherCard'
 import styles from './App.module.css';
 
+// Weather App Component - moved outside to prevent re-creation on every render
+const WeatherApp = ({ city, setCity, fetchWeather, weather }) => (
+  <div className={styles.weatherBox}>
+    <h1 className={styles.title}>Weather App</h1>
+    {/* Search bar and button */}
+    <SearchBar city={city} setCity={setCity} fetchWeather={fetchWeather} />
+    {/* Weather result appears below search bar after search */}
+    <div className={styles.result}>
+      <WeatherCard weather={weather} />
+    </div>
+  </div>
+);
+
 /**
  * The main App component sets up routing and manages weather app state.
  */
@@ -43,20 +56,20 @@ function App() {
       <div className={styles.container}>
         <nav className={styles.nav}>
           <Link to="/" className={styles.navLink}>Home</Link>
+          <Link to="/weather" className={styles.navLink}>Weather</Link>
           <Link to="/about" className={styles.navLink}>About</Link>
         </nav>
         <Routes>
-          {/* Home route displays the redesigned weather app UI */}
-          <Route path="/" element={
-            <div className={styles.weatherBox}>
-              <h1 className={styles.title}>Weather App</h1>
-              {/* Search bar and button */}
-              <SearchBar city={city} setCity={setCity} fetchWeather={fetchWeather} />
-              {/* Weather result appears below search bar after search */}
-              <div className={styles.result}>
-                <WeatherCard weather={weather} />
-              </div>
-            </div>
+          {/* Home route displays the welcome page */}
+          <Route path="/" element={<Home />} />
+          {/* Weather route displays the weather app UI */}
+          <Route path="/weather" element={
+            <WeatherApp 
+              city={city} 
+              setCity={setCity} 
+              fetchWeather={fetchWeather} 
+              weather={weather}
+            />
           } />
           {/* About route displays the About page */}
           <Route path="/about" element={<About />} />
