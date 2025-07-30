@@ -4,6 +4,7 @@ import About from './pages/About'
 import { useState } from 'react'
 import SearchBar from './components/SearchBar'
 import WeatherCard from './components/WeatherCard'
+import styles from './App.module.css';
 
 /**
  * The main App component sets up routing and manages weather app state.
@@ -39,53 +40,30 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* Navigation bar with links to Home and About pages */}
-      <nav className="bg-blue-700 p-4 flex gap-4">
-        <Link to="/" className="text-white hover:underline">Home</Link>
-        <Link to="/about" className="text-white hover:underline">About</Link>
-      </nav>
-      <Routes>
-        {/* Home route displays the weather app UI */}
-        <Route path="/" element={
-          <div className="min-h-screen bg-gradient-to-br from-sky-500 to-indigo-600 p-6 flex flex-col items-center">
-            <h1 className="text-white text-4xl font-bold mb-6">Weather App</h1>
-            {/* SearchBar allows user to input city and trigger fetchWeather */}
-            <SearchBar city={city} setCity={setCity} fetchWeather={fetchWeather} />
-            {/* WeatherCard displays weather data if available */}
-            <WeatherCard weather={weather} />
-          </div>
-        } />
-        {/* About route displays the About page */}
-        <Route path="/about" element={<About />} />
-      </Routes>
+      <div className={styles.container}>
+        <nav className={styles.nav}>
+          <Link to="/" className={styles.navLink}>Home</Link>
+          <Link to="/about" className={styles.navLink}>About</Link>
+        </nav>
+        <Routes>
+          {/* Home route displays the redesigned weather app UI */}
+          <Route path="/" element={
+            <div className={styles.weatherBox}>
+              <h1 className={styles.title}>Weather App</h1>
+              {/* Search bar and button */}
+              <SearchBar city={city} setCity={setCity} fetchWeather={fetchWeather} />
+              {/* Weather result appears below search bar after search */}
+              <div className={styles.result}>
+                <WeatherCard weather={weather} />
+              </div>
+            </div>
+          } />
+          {/* About route displays the About page */}
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   )
 }
-
-/*
-# Weather App
-
-This is a simple React weather application that allows users to search for the current weather in any city using the OpenWeatherMap API. The app features a clean, modern UI built with Tailwind CSS and includes navigation between a Home (weather search) and About page.
-
-## Features
-- Search for current weather by city name
-- Displays city, weather description, temperature, and icon
-- Responsive and modern design using Tailwind CSS
-- Navigation between Home and About pages using React Router
-
-## How to Use
-1. Enter a city name in the search bar on the Home page.
-2. Click the "Search" button to fetch and display the current weather for that city.
-3. Navigate to the About page to see additional information about the app (placeholder).
-
-## Setup
-- Requires Node.js and npm installed.
-- Install dependencies with `npm install`.
-- Start the development server with `npm run dev`.
-- Make sure to provide your own OpenWeatherMap API key in `App.jsx` if you want to use your own key.
-
----
-
-*/
 
 export default App;
